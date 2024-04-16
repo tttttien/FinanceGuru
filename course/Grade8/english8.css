@@ -1,0 +1,21 @@
+.cotain {
+	float: right;
+	width: 100%;
+}
+
+.clear{overflow: hidden;}
+
+.myTable{font-size: 14px;
+	border-collapse: collapse;
+	border-spacing: 0;
+    text-align: center;
+     margin-top: 20px;
+}
+.myTable th {
+    border: 1px solid #000000;	
+    padding: 5px;
+}
+.myTable td {
+  border: 1px solid #010101;
+  padding: 8px;
+}
