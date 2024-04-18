@@ -1,21 +1,44 @@
-.cotain {
-	float: right;
-	width: 100%;
+* {
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
 }
 
-.clear{overflow: hidden;}
+.cotainer {
+    float: right;
+    width: 100%;
+}
 
-.myTable{font-size: 14px;
-	border-collapse: collapse;
-	border-spacing: 0;
+.siso {
+    width: 100px;
+    height: 50px;
+    background-color: greenyellow;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    margin: auto;
+    radius: 20px;
+}
+
+.clear {
+    overflow: hidden;
+}
+
+.myTable {
+    font-size: 14px;
+    border-collapse: collapse;
+    border-spacing: 0;
     text-align: center;
-     margin-top: 20px;
+    margin: 20px auto;
 }
+
 .myTable th {
-    border: 1px solid #000000;	
+    border: 1px solid #000000;
     padding: 5px;
 }
+
 .myTable td {
-  border: 1px solid #010101;
-  padding: 8px;
+    border: 1px solid #010101;
+    padding: 8px;
 }
