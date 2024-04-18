@@ -1,44 +1,39 @@
-* {
+* { 
     margin: 0px;
     padding: 0px;
     box-sizing: border-box;
 }
+.card-image {
+    width: 250px;
+}
 
-.cotainer {
-    float: right;
+.sizetable {
+   text-align: center !important;
+}
+.card {
+    background-color: whitesmoke;
+    border: none;
+    margin: 25px 15px;
+    display: inline-block !important;
+
+}
+.content {
     width: 100%;
 }
-
-.siso {
-    width: 100px;
-    height: 50px;
-    background-color: greenyellow;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    margin: auto;
-    radius: 20px;
+.siso, .icon {
+    color:rgba(3, 160, 92, 0.733);
 }
-
-.clear {
-    overflow: hidden;
+.siso2, .icon2 {
+    color:rgba(1, 92, 165, 0.733);
 }
-
-.myTable {
-    font-size: 14px;
-    border-collapse: collapse;
-    border-spacing: 0;
-    text-align: center;
-    margin: 20px auto;
+.siso3, .icon3 {
+    color:rgba(189, 5, 5, 0.733);
 }
-
-.myTable th {
-    border: 1px solid #000000;
-    padding: 5px;
+.siso4, .icon4 {
+    color:rgba(233, 119, 5, 0.733);
 }
-
-.myTable td {
-    border: 1px solid #010101;
-    padding: 8px;
+.icon {
+    margin: center;
+    float: right;
+    font-size: 50px;
 }
