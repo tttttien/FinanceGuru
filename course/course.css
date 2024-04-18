@@ -1,34 +1,35 @@
-.grid{
-    width: 1300px;
-    max-width: 100%; 
-    margin: 0 auto;
+* {
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
 }
 
-.grid_row{
-    display: flex;
-    margin-left: -12px;
-    margin-right: -12px;
-}
-.grid_column-4 {
-    padding-left: 12px;
-    padding-right: 12px;
+.course {
     width: 30%;
-}
-/*Product items*/
-.home-product-item {
-    background-color: rgba(253, 252, 252,0);
-    margin-top: 10px;
+    line-height: 30px;
+    float: left;
+    margin: 0 10px;
 }
 
-.home-product-item_img{
-    padding-top: 100%;
-    background-repeat: no-repeat;
-    background-size: contain;
-    background-position: left;
+.course img {
+    width: 100%;
+    object-fit: cover;
 }
 
-.home-product-item_name 
-{
-    font-size: 13px;
-    margin: 10px 0;
+.subject {
+    text-align: center;
+    color: rgb(7, 107, 247);
+    font-weight: bold;
+}
+.clearfix::after {
+    content: "";
+    clear: both;
+    display: table;
+}
+
+@media only screen and (max-width: 700px) {
+    .course {
+        width: 100%;
+        margin: 10px 0px;
+    }
 }
