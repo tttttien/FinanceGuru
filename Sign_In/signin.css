@@ -1,0 +1,70 @@
+html, body {
+    height: 100%;
+    width: 100%;
+    background: 
+        url('https://p.productioncrate.com/stock-hd/effects/FootageCrate-4K_Magic_Impact_Blue_Sparky_10@3X.png') center/cover no-repeat,
+        radial-gradient(ellipse at center, rgba(185,210,224,1) 0%, rgba(187,214,228,1) 0%, rgba(186,211,225,1) 15%, rgba(186,211,225,1) 38%, rgba(169,199,215,1) 68%, rgba(169,199,215,1) 68%, rgba(169,199,215,1) 82%, rgba(158,191,208,1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#b9d2e0', endColorstr='#9ebfd0', GradientType=1); /* IE6-9 fallback on horizontal gradient */
+}
+
+.login-block {
+    width: 100%;
+    padding: 200px 0;
+}
+
+.container {
+    background: #D3D3D3;
+    border-radius: 10px;
+    width: 40%;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+@media (min-width: 576px) {
+    .container {
+        max-width: 540px;
+    }
+}
+
+*, ::after, ::before {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #212529;
+    text-align: left;
+}
+
+.login-sec {
+    padding: 50px 30px;
+    position: relative;
+}
+
+.login-sec h2 {
+    margin-bottom: 30px;
+    font-weight: 800;
+    font-size: 30px;
+    color: #0069c0;
+}
+
+.login-sec h2:after {
+    content: " ";
+    width: 100px;
+    height: 5px;
+    background: #6ec6ff;
+    display: block;
+    margin-top: 20px;
+    border-radius: 3px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.btn-login {
+    background: #0069c0;
+    color: #fff;
+    font-weight: 600;
+}
