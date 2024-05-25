@@ -4,6 +4,23 @@ h2{
     text-align:center;
 }
 
+.create-employee{
+    color:white;
+    height:40px;
+    font-size:1rem;
+    border:none;
+    margin-top:30px;
+    cursor:pointer;
+    border-radius:6px;
+    font-weight:400;
+    transition: all 0.2s ease;
+    background-color: #3a86ff;
+}
+.create-employee:hover{
+    background: #2a63c1;
+    color:white;
+}
+
 .button{
     width:100%;
     background: transparent;
@@ -32,6 +49,28 @@ h2{
     top: 50%;
     transform: translate(-50%,-50%) scale(1);
 }
+
+
+.createEmployee{
+    width:1200px;
+    background: white;
+    border-radius:6px;
+    position:absolute;
+    top: 0;
+    left:50%;
+    transform: translate(-50%,-50%) scale(0.1);
+    padding: 0 30px 30px;
+    box-shadow: 0 1px 5px #ddd;
+    visibility: hidden;
+    transition: transform 0.4s, top 0.4s;
+}
+
+.open-createEmployee{
+    visibility: visible;
+    top: 50%;
+    transform: translate(-50%,-50%) scale(1);
+}
+
 
 header{
     font-size:1.5rem;
