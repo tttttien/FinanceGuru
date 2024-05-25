@@ -1,57 +1,79 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Expense Tracker</title>
-    <!-- Bootrstrap -->
+    <!-- Bootstrap -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <!-- Datepicker jQuery -->
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 </head>
 <body>
     <div class="container">
+        <!-- Expense Form -->
         <form id="expense-form">
             <div class="form-row">
+                <!-- Employee Name Input -->
                 <div class="form-group col-md-6">
-                    <label for="expense-name">Expense name</label>
-                    <input type="text" class="form-control" id="expense-name" placeholder="Expense name">
+                    <label for="employee-name">Employee Name</label>
+                    <input type="text" class="form-control" id="employee-name" placeholder="Employee Name">
                 </div>
+                <!-- Amount Input -->
                 <div class="form-group col-md-2">
                     <label for="expense-amount">Amount</label>
                     <input type="number" step="0.01" class="form-control" id="expense-amount" placeholder="VND">
                 </div>
+                <!-- Category Select -->
                 <div class="form-group col-md-2">
                     <label for="expense-category">Category</label>
                     <select class="form-control" id="expense-category">
-                        <option selected>Salary</option>
-                        <option>Services</option>
+                        <option selected>Select</option>
+                        <option>Salary</option>
+                        <option>Others</option>
                     </select>
                 </div>
+                <!-- Date Input -->
                 <div class="form-group col-md-2">
                     <label for="expense-date">Date</label>
                     <input type="text" class="form-control" id="expense-date">
                 </div>
             </div>
+            <div class="form-row">
+                <!-- Description Input -->
+                <div class="form-group col-md-12" id="expense-description-container">
+                    <label for="expense-description">Description</label>
+                    <select class="form-control" id="expense-teacher">
+                        <option selected>Choose a teacher</option>
+                    </select>
+                    <input type="text" class="form-control d-none" id="expense-description" placeholder="Description">
+                </div>
+            </div>
+            <!-- Add Expense Button -->
             <div class="form-row col-md-6 mx-auto my-3">
                 <button id="expense-btn" class="btn btn-primary btn-lg btn-block">Add expense</button>
             </div>
         </form>
 
+        <!-- Filter Form -->
         <form id="filter-form" class="my-4">
             <div class="form-row align-items-end">
-                <div class="form-group col-md-4">
-                    <label for="filter-name">Name</label>
-                    <input type="text" class="form-control" id="filter-name">
-                </div>
-                <div class="form-group col-md-2">
+                <!-- Category Filter Select -->
+                <div class="form-group col-md-3">
                     <label for="filter-category">Category</label>
                     <select class="form-control" id="filter-category">
-                        <option selected></option>
+                        <option selected>Select</option>
                         <option>Salary</option>
-                        <option>Services</option>
+                        <option>Others</option>
                     </select>
                 </div>
+                <!-- Month Filter Input -->
+                <div class="form-group col-md-3">
+                    <label for="filter-month">Month</label>
+                    <input type="month" class="form-control" id="filter-month">
+                </div>
+                <!-- Filter and Reset Buttons -->
                 <div class="form-group col-md-1 mx-2">
                     <button id="filter-btn" class="btn btn-success">Filter</button>
                 </div>
@@ -60,10 +82,13 @@
                 </div>
             </div>
         </form>
+        
+        <!-- Expense Table -->
         <table id="expense-table" class="table">
             <thead>
                 <tr>
-                    <th scope="col">Expense name</th>
+                    <th scope="col">Employee Name</th>
+                    <th scope="col">Description</th>
                     <th scope="col">Amount (VND)</th>
                     <th scope="col">Category</th>
                     <th scope="col">Date</th>
@@ -71,11 +96,13 @@
             </thead>
             <tbody id="expense-table-body"></tbody>
         </table>
-
+        
+        <!-- Total Amount Display -->
         <div class="text-left my-4">
             <h2>Total: - <span id="total" class="mx-2"><strong>0</strong></span>VND</h2>
         </div>
 
+        <!-- Chart Display -->
         <canvas id="my-chart"></canvas>
 
     </div>
@@ -83,7 +110,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
     <!-- bootstrap -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4xF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     
     <!-- Datepicker jQuery  -->
@@ -95,6 +122,7 @@
     <!-- Font Awesome -->
     <script src="https://kit.fontawesome.com/7235818b31.js" crossorigin="anonymous"></script>
     
+    <!-- Main JavaScript Module -->
     <script type="module" src="main.mjs"></script>
 
 </body>
