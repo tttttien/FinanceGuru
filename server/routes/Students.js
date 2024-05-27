@@ -1,14 +1,14 @@
 const express = require("express");
 const router = express.Router();
-const { Studentss } = require("../models");
+const { Students } = require("../models");
 
-// Request to get all products
+// Request to get all student
 router.get("/", async (req, res) => {
   try {
-    const listOfProducts = await Products.findAll({
-      order: [["Num", "DESC"]], // Sort by Num column in descending order
+    const listOfStudents = await Students.findAll({
+      order: [["Num", "ASC"]], // Sort by Num column in descending order
     });
-    res.json(listOfProducts);
+    res.json(listOfStudents);
   } catch (error) {
     console.error("Error fetching students:", error);
     res.status(500).json({ error: "Server error" });
