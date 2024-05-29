@@ -45,7 +45,7 @@ function createTableRow(student) {
     row.appendChild(nameCell);
 
     const phoneCell = document.createElement('td');
-    phoneCell.textContent = student.StudenPhone; // Assuming a 'phone' property
+    phoneCell.textContent = student.StudentPhone; // Assuming a 'phone' property
     row.appendChild(phoneCell);
 
     const addressCell = document.createElement('td');
@@ -77,13 +77,13 @@ function showStudentDetails(student) {
     const course = document.getElementById('course'); // Assuming a 'course' property
 
     // Update popup content with student data
-    studentId.textContent = student.id;
-    fullName.textContent = student.fullName;
+    studentId.textContent = student.StudentID;
+    fullName.textContent = student.FullName;
     email.textContent = student.email; // Assuming 'email' property exists
-    phoneNumber.textContent = student.phone;
-    birthDate.textContent = student.birthDate; // Assuming 'birthDate' property exists
-    gender.textContent = student.gender; // Assuming 'gender' property exists
-    address.textContent = student.address;
+    phoneNumber.textContent = student.StudentPhonephone;
+    birthDate.textContent = student.StudentDOB; // Assuming 'birthDate' property exists
+    gender.textContent = student.Gender; // Assuming 'gender' property exists
+    address.textContent = student.StudentAddress;
     course.textContent = student.course; // Assuming 'course' property exists
 
     // You can add logic here to open the popup (consider a toggle functionality)
