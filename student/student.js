@@ -1,102 +1,94 @@
-// Function to populate the table with student data
-function populateTable(students) {
+function fetchStudentsAndUpdateTable() {
+    return fetch('http://localhost:2001/students') // Replace with your actual API endpoint
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(students => {
+            console.log('Students fetched successfully');
+            updateTable(students);
+        })
+        .catch(error => {
+            console.error('Error fetching student data:', error);
+        });
+}
+
+function updateTable(students) {
     const tableBody = document.getElementById('student-table-body');
+
     if (tableBody) {
         // Clear the table body
         tableBody.innerHTML = '';
 
-        // Create a table row for each student and append it to the table body
-        students.forEach((student) => {
-            const row = createTableRow(student);
-            tableBody.appendChild(row);
+        // Loop through the fetched students and create table rows
+        students.forEach(student => {
+            const tableRow = createTableRow(student);
+            tableBody.appendChild(tableRow);
         });
+    } else {
+        console.error('Error: #student-table-body element not found in the DOM');
     }
 }
 
-// Function to create a table row for a student
 function createTableRow(student) {
     const row = document.createElement('tr');
 
-    // Create cells for each column and append them to the row
+    // Create cells for each data point and add them to the row
     const idCell = document.createElement('td');
-    idCell.textContent = student.id;
+    idCell.textContent = student.StudentID;
     row.appendChild(idCell);
 
     const nameCell = document.createElement('td');
-    nameCell.textContent = student.fullName;
+    nameCell.textContent = student.FullName; // Assuming a 'fullName' property
     row.appendChild(nameCell);
 
     const phoneCell = document.createElement('td');
-    phoneCell.textContent = student.phone;
+    phoneCell.textContent = student.StudenPhone; // Assuming a 'phone' property
     row.appendChild(phoneCell);
 
     const addressCell = document.createElement('td');
-    addressCell.textContent = student.address;
+    addressCell.textContent = student.StudentAddress; // Assuming an 'address' property
     row.appendChild(addressCell);
 
-    const actionCell = document.createElement('td');
-    const viewLink = document.createElement('a');
-    viewLink.href = '#';
-    viewLink.classList.add('button');
-    viewLink.onclick = () => openStudentDetails(student);
-    viewLink.innerHTML = '<u>View</u>';
-    actionCell.appendChild(viewLink);
-    row.appendChild(actionCell);
+    // Add a cell for "View Details" button
+    const viewDetailsCell = document.createElement('td');
+    const viewDetailsButton = document.createElement('button');
+    viewDetailsButton.textContent = "View Details";
+    viewDetailsButton.addEventListener('click', () => {
+        showStudentDetails(student); // Call function to populate popup
+    });
+    viewDetailsCell.appendChild(viewDetailsButton);
+    row.appendChild(viewDetailsCell);
 
     return row;
 }
 
-// Function to handle the "View" button click
-function openStudentDetails(student) {
-    // Get the popup elements
+function showStudentDetails(student) {
     const popup = document.getElementById('popup');
-    const idElement = document.querySelector('#popup .input-box:nth-child(1)');
-    const nameElement = document.querySelector('#popup .input-box:nth-child(2)');
-    const emailElement = document.querySelector('#popup .input-box:nth-child(3)');
-    const phoneElement = document.querySelector('#popup .input-box:nth-child(4)');
-    const birthdateElement = document.querySelector('#popup .input-box:nth-child(5)');
-    const genderElement = document.querySelector('#popup .gender-box');
-    const addressElement = document.querySelector('#popup .input-box.address');
-    const courseElement = document.querySelector('#popup .input-box:last-child');
+    const studentId = document.getElementById('student-id');
+    const fullName = document.getElementById('full-name');
+    const email = document.getElementById('email'); // Assuming an 'email' property
+    const phoneNumber = document.getElementById('phone-number');
+    const birthDate = document.getElementById('birth-date'); // Assuming a 'birthDate' property
+    const gender = document.getElementById('gender'); // Assuming a 'gender' property
+    const address = document.getElementById('address');
+    const course = document.getElementById('course'); // Assuming a 'course' property
 
-    // Populate the popup with the student's data
-    idElement.textContent = student.id;
-    nameElement.textContent = student.fullName;
-    emailElement.textContent = student.email;
-    phoneElement.textContent = student.phone;
-    birthdateElement.textContent = student.birthDate;
-    genderElement.textContent = student.gender;
-    addressElement.textContent = student.address;
-    courseElement.textContent = student.course;
+    // Update popup content with student data
+    studentId.textContent = student.id;
+    fullName.textContent = student.fullName;
+    email.textContent = student.email; // Assuming 'email' property exists
+    phoneNumber.textContent = student.phone;
+    birthDate.textContent = student.birthDate; // Assuming 'birthDate' property exists
+    gender.textContent = student.gender; // Assuming 'gender' property exists
+    address.textContent = student.address;
+    course.textContent = student.course; // Assuming 'course' property exists
 
-    // Display the popup
-    popup.classList.add('open-popup');
+    // You can add logic here to open the popup (consider a toggle functionality)
+    popup.classList.add('open-popup'); // Assuming a class 'open-popup' for visibility
 }
 
-// Function to close the popup
-function closePopup() {
-    const popup = document.getElementById('popup');
-    popup.classList.remove('open-popup');
-}
-
-// Fetch the student data and populate the table
-function fetchStudents() {
-    return fetch('http://localhost:2001/students')
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Error fetching student data');
-            }
-            return response.json();
-        })
-        .catch(error => {
-            console.error('Error fetching student data:', error);
-            throw error;
-        });
-}
-
-fetchStudents()
-    .then(populateTable)
-    .catch(error => {
-        console.error('Error fetching student data:', error);
-        // Handle the error, e.g., display an error message to the user
-    });
+// Call the fetchStudentsAndUpdateTable function on page load or when needed
+fetchStudentsAndUpdateTable();

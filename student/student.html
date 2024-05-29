@@ -24,56 +24,53 @@
           <th></th>
         </tr>
       </thead>
-      <tbody>
-        <!-- The table rows will be populated dynamically from the database -->
+      <tbody id="student-table-body">
       </tbody>
     </table>
-  </div>
-  <div class="popup" id="popup">
-    <section class="container">
-      <p></p>
-      <header>Student Details</header>
-      <form action="" class="form">
-        <div class="input-box">
-          <label for=""><b>ID: </b></label>
-          1
-        </div>
-        <div class="input-box">
-          <label for=""><b>Full name: </b></label>
-          Nguyen Thanh Quynh Tien
-        </div>
-        <div class="input-box">
-          <label for=""><b>Email: </b></label>
-          quynhtien@gmail.com
-        </div>
-        <div class="column">
-          <div class="input-box">
-            <label for=""><b>Phone Number: </b></label>
-            0123456789
-          </div>
 
+    <div class="popup" id="popup">
+      <section class="container">
+        <p></p>
+        <header>Student Details</header>
+        <form action="" class="form">
           <div class="input-box">
-            <label for=""><b>Birth Date: </b></label>
-            19/10/2003
+            <label for=""><b>ID: </b></label>
+            <span id="student-id"></span>
           </div>
-        </div>
-
-        <div class="gender-box">
-          <label for=""><b>Gender: </b></label>
-          Female
-        </div>
-        <div class="input-box address">
-          <label for=""><b>Address: </b></label>
-          1387 Huynh Tan Phat, Phu Thuan Ward, District 7
-        </div>
-        <div class="input-box">
-          <label for=""><b>Course: </b></label>
-          Math 9
-        </div>
-        <button type="button" onclick="closePopup()">Close</button>
-      </form>
-    </section>
-  </div>
+          <div class="input-box">
+            <label for=""><b>Full name: </b></label>
+            <span id="full-name"></span>
+          </div>
+          <div class="input-box">
+            <label for=""><b>Email: </b></label>
+            <span id="email"></span>
+          </div>
+          <div class="column">
+            <div class="input-box">
+              <label for=""><b>Phone Number: </b></label>
+              <span id="phone-number"></span>
+            </div>
+            <div class="input-box">
+              <label for=""><b>Birth Date: </b></label>
+              <span id="birth-date"></span>
+            </div>
+          </div>
+          <div class="gender-box">
+            <label for=""><b>Gender: </b></label>
+            <span id="gender"></span>
+          </div>
+          <div class="input-box address">
+            <label for=""><b>Address: </b></label>
+            <span id="address"></span>
+          </div>
+          <div class="input-box">
+            <label for=""><b>Course: </b></label>
+            <span id="course"></span>
+          </div>
+          <button type="button" onclick="closePopup()">Close</button>
+        </form>
+      </section>
+    </div>
   </div>
   <script src="./student.js"></script>
   <script>
@@ -87,6 +84,7 @@
       popup.classList.remove("open-popup");
     }
   </script>
+
 </body>
 
 </html>
