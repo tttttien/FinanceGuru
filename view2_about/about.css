@@ -1,0 +1,82 @@
+.about__achievements{
+    margin-top: 5rem;
+}
+.about__achievements-container{
+    display:grid;
+    grid-template-columns: 40% 60%;
+    gap:5rem;
+}
+
+.about__achievements-right > p {
+    margin:1.6rem 0 2.5rem;
+}
+.achievements__cards{
+    display:grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap:1.5rem;
+}
+
+.achievement__cards{
+    background:var(--color-bg1);
+    padding:1.6rem;
+    border-radius:1rem;
+    text-align: center;
+    transition:var(--transition);
+}
+
+.achievement__cards:hover{
+    background:var(--color-bg2);
+    box-shadow: 0 3rem 3rem rgba(0,0,0,0.1);
+}
+
+.achievement__icon{
+    padding:0.6rem;
+    border-radius: 1rem;
+    display:inline-block;
+    font-size:2rem;
+}
+
+
+
+.team{
+    background:var(--color-bg1);
+    box-shadow:inset 0 0 3rem rgba(0,0,0,0.1);
+}
+
+.team__container{
+    display:grid;
+    grid-template-columns: repeat(4,1fr);
+    gap:2rem;
+}
+
+.team__member{
+    background:var(--color-bg2);
+    padding: 2rem;
+    border:1px solid transparent;
+    border-radius: 0.5rem;
+    transition: var(--transition);
+    position: relative;
+}
+
+.team__member:hover{
+    background: transparent;
+    border-color: var(--color-primary);
+}
+
+.team__member-info *{
+    text-align: center;
+    margin-top:0.7rem;
+}
+.team__member-info p{
+    color:var(--color-primary);
+}
+
+.team__member-socials{
+    text-align: center;
+    margin-top:0.2rem;
+    padding:0.3rem;
+    border-radius: 1rem;
+    gap:4rem;
+    font-size:1.5rem;
+    transition:var(--transition);
+}
