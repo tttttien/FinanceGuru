@@ -49,7 +49,7 @@ function createTableRow(student) {
     row.appendChild(phoneCell);
 
     const addressCell = document.createElement('td');
-    addressCell.textContent = student.StudentAddress; // Assuming an 'address' property
+    addressCell.textContent = student.Course; // Assuming an 'course' property
     row.appendChild(addressCell);
 
     // Add a cell for "View Details" button
@@ -80,7 +80,7 @@ function showStudentDetails(student) {
     studentId.textContent = student.StudentID;
     fullName.textContent = student.FullName;
     email.textContent = student.email; // Assuming 'email' property exists
-    phoneNumber.textContent = student.StudentPhonephone;
+    phoneNumber.textContent = student.StudentPhone;
     birthDate.textContent = student.StudentDOB; // Assuming 'birthDate' property exists
     gender.textContent = student.Gender; // Assuming 'gender' property exists
     address.textContent = student.StudentAddress;

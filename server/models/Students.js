@@ -37,6 +37,10 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.DATE, // Corrected to lowercase "integer"
         allowNull: true,
       },
+      Course: {
+        type: DataTypes.STRING, // Corrected to lowercase "integer"
+        allowNull: false,
+      },
 
     },
     {
