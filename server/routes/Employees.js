@@ -44,4 +44,19 @@ router.post("/", async (req, res) => {
     }
 });
 
+router.delete('/:employeeId', async (req, res) => {
+    try {
+        const deletedCount = await Employees.destroy({
+            where: { id: req.params.employeeId },
+        });
+        if (deletedCount === 0) {
+            return res.status(404).json({ error: 'Employee not found' });
+        }
+        res.json({ message: 'Employee deleted' });
+    } catch (error) {
+        console.error('Error deleting employee:', error);
+        res.status(500).json({ error: 'Server error' });
+    }
+});
+
 module.exports = router;
