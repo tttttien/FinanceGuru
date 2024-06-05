@@ -17,6 +17,10 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false,
       },
+      Email: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
       Gender: {
         type: DataTypes.STRING,
         allowNull: false,
@@ -32,10 +36,6 @@ module.exports = (sequelize, DataTypes) => {
       StudentPhone: {
         type: DataTypes.STRING, // Corrected to lowercase "integer"
         allowNull: false,
-      },
-      RegDate: {
-        type: DataTypes.DATE, // Corrected to lowercase "integer"
-        allowNull: true,
       },
       Course: {
         type: DataTypes.STRING, // Corrected to lowercase "integer"

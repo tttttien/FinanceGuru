@@ -48,9 +48,9 @@ function createTableRow(student) {
     phoneCell.textContent = student.StudentPhone; // Assuming a 'phone' property
     row.appendChild(phoneCell);
 
-    const addressCell = document.createElement('td');
-    addressCell.textContent = student.Course; // Assuming an 'course' property
-    row.appendChild(addressCell);
+    const courseCell = document.createElement('td');
+    courseCell.textContent = student.Course; // Assuming an 'course' property
+    row.appendChild(courseCell);
 
     // Add a cell for "View Details" button
     const viewDetailsCell = document.createElement('td');
@@ -69,23 +69,22 @@ function showStudentDetails(student) {
     const popup = document.getElementById('popup');
     const studentId = document.getElementById('student-id');
     const fullName = document.getElementById('full-name');
-    const email = document.getElementById('email'); // Assuming an 'email' property
+    const email = document.getElementById('email');
     const phoneNumber = document.getElementById('phone-number');
-    const birthDate = document.getElementById('birth-date'); // Assuming a 'birthDate' property
-    const gender = document.getElementById('gender'); // Assuming a 'gender' property
+    const birthDate = document.getElementById('birth-date');
+    const gender = document.getElementById('gender');
     const address = document.getElementById('address');
-    const course = document.getElementById('course'); // Assuming a 'course' property
+    const course = document.getElementById('course');
 
     // Update popup content with student data
     studentId.textContent = student.StudentID;
     fullName.textContent = student.FullName;
-    email.textContent = student.email; // Assuming 'email' property exists
+    email.textContent = student.Email; // Access and display email
     phoneNumber.textContent = student.StudentPhone;
-    birthDate.textContent = student.StudentDOB; // Assuming 'birthDate' property exists
-    gender.textContent = student.Gender; // Assuming 'gender' property exists
+    birthDate.textContent = student.StudentDOB;
+    gender.textContent = student.Gender;
     address.textContent = student.StudentAddress;
-    course.textContent = student.course; // Assuming 'course' property exists
-
+    course.textContent = student.Course; // Access and display course
     // You can add logic here to open the popup (consider a toggle functionality)
     popup.classList.add('open-popup'); // Assuming a class 'open-popup' for visibility
 }

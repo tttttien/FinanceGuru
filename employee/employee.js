@@ -1,101 +1,98 @@
-let employees = {
-    1: {
-        id: 1,
-        fullName: "Nguyen Thanh Quynh Tien",
-        position: "Mathematic Lecturer",
-        email: "quynhtien@gmail.com",
-        phoneNumber: "0123456789",
-        birthdate: "2003-10-19",
-        gender: "Female",
-        address: "1387 Huynh Tan Phat, Phu Thuan Ward, District 7"
-    }
-};
-
-let employeeIdCounter = 2;
-
-function onFormSubmit() {
-    let formData = readFormData();
-    formData.id = employeeIdCounter++;
-    employees[formData.id] = formData;
-    insertNewRecord(formData);
-    closeCreateEmployee();
+function fetchEmployeesAndUpdateTable() {
+  return fetch('http://localhost:2001/employees') // Replace with your actual API endpoint
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      return response.json();
+    })
+    .then(employees => {
+      console.log('Employees fetched successfully');
+      updateTable(employees);
+    })
+    .catch(error => {
+      console.error('Error fetching employee data:', error);
+    });
 }
 
-function readFormData() {
-    return {
-        fullName: document.getElementById("fullName").value,
-        position: document.getElementById("position").value,
-        email: document.getElementById("email").value,
-        phoneNumber: document.getElementById("phoneNumber").value,
-        birthdate: document.getElementById("birthdate").value,
-        gender: document.getElementById("gender").value,
-        address: document.getElementById("address").value
-    };
+function updateTable(employees) {
+  const tableBody = document.getElementById('employee-table-body');
+
+  if (tableBody) {
+    // Clear the table body
+    tableBody.innerHTML = '';
+
+    // Loop through the fetched employees and create table rows
+    employees.forEach(employee => {
+      const tableRow = createTableRow(employee);
+      tableBody.appendChild(tableRow);
+    });
+  } else {
+    console.error('Error: #employee-table-body element not found in the DOM');
+  }
 }
 
-function insertNewRecord(data) {
-    let table = document.getElementById("employeeList").getElementsByTagName('tbody')[0];
-    let newRow = table.insertRow();
-    newRow.insertCell(0).innerText = data.id;
-    newRow.insertCell(1).innerText = data.fullName;
-    newRow.insertCell(2).innerText = data.phoneNumber;
-    newRow.insertCell(3).innerText = data.address;
-    newRow.insertCell(4).innerHTML = `<a href="#" class="button" onclick="openPopup(${data.id})"><u>View</u></a>
-                                        <a class="button" onclick="onDelete(this)">Delete</a>`;
+function createTableRow(employee) {
+  const row = document.createElement('tr');
+
+  // Create cells for each data point and add them to the row
+  const idCell = document.createElement('td');
+  idCell.textContent = employee.ID; // Assuming an 'id' property
+  row.appendChild(idCell);
+
+  const nameCell = document.createElement('td');
+  nameCell.textContent = employee.FullName; // Assuming a 'fullName' property
+  row.appendChild(nameCell);
+
+  const phoneCell = document.createElement('td');
+  phoneCell.textContent = employee.EmployeePhone; // Assuming a 'phone' property
+  row.appendChild(phoneCell);
+
+  const positionCell = document.createElement('td');
+  positionCell.textContent = employee.Position; // Assuming an 'address' property
+  row.appendChild(positionCell);
+
+  // Add a cell for "View Details" button
+  const viewDetailsCell = document.createElement('td');
+  const viewDetailsButton = document.createElement('button');
+  viewDetailsButton.textContent = "View Details";
+  viewDetailsButton.addEventListener('click', () => {
+    showEmployeeDetails(employee); // Call function to populate popup with ID
+  });
+  viewDetailsCell.appendChild(viewDetailsButton);
+  row.appendChild(viewDetailsCell);
+
+  return row;
 }
 
-function openPopup(id) {
-    let employee = employees[id];
-    document.getElementById("detailId").innerText = employee.id;
-    document.getElementById("detailFullName").innerText = employee.fullName;
-    document.getElementById("detailPosition").innerText = employee.position;
-    document.getElementById("detailEmail").innerText = employee.email;
-    document.getElementById("detailPhoneNumber").innerText = employee.phoneNumber;
-    document.getElementById("detailBirthdate").innerText = employee.birthdate;
-    document.getElementById("detailGender").innerText = employee.gender;
-    document.getElementById("detailAddress").innerText = employee.address;
 
-    popup.classList.add("open-popup");
+function showEmployeeDetails(employee) {
+  if (!employee) {
+    console.error('Error: Employee data is not available');
+    return; // Exit the function if employee is undefined
+  }
+  const popup = document.getElementById('popup');
+  const employeeId = document.getElementById('detailId');
+  const fullName = document.getElementById('detailFullName');
+  const email = document.getElementById('detailEmail');
+  const phoneNumber = document.getElementById('detailPhoneNumber');
+  const birthDate = document.getElementById('detailBirthdate');
+  const gender = document.getElementById('detailGender');
+  const address = document.getElementById('detailAddress');
+  const position = document.getElementById('detailPosition');
+
+  // Update popup content with employee data
+  employeeId.textContent = employee.ID;
+  fullName.textContent = employee.FullName;
+  email.textContent = employee.EmployeeEmail; // Access and display email
+  phoneNumber.textContent = employee.EmployeePhone;
+  birthDate.textContent = employee.EmployeeDOB;
+  gender.textContent = employee.Gender;
+  address.textContent = employee.EmployeeAddress;
+  position.textContent = employee.Position; // Access and display course
+  // You can add logic here to open the popup (consider a toggle functionality)
+  popup.classList.add('open-popup'); // Assuming a class 'open-popup' for visibility
 }
 
-let popup = document.getElementById("popup")
-  
-function openPopup(id)
-{
-  let employee = employees[id];
-  document.getElementById("detailId").innerText = employee.id;
-  document.getElementById("detailFullName").innerText = employee.fullName;
-  document.getElementById("detailPosition").innerText = employee.position;
-  document.getElementById("detailEmail").innerText = employee.email;
-  document.getElementById("detailPhoneNumber").innerText = employee.phoneNumber;
-  document.getElementById("detailBirthdate").innerText = employee.birthdate;
-  document.getElementById("detailGender").innerText = employee.gender;
-  document.getElementById("detailAddress").innerText = employee.address;
-
-  popup.classList.add("open-popup");
-}
-
-function onDelete(td)
-{
-    if (confirm('Are you sure to delete this employee?'))
-    {
-    row=td.parentElement.parentElement;
-    document.getElementById("employeeList").deleteRow(row.rowIndex)
-    }
-}
-
-function closePopup()
-{
-  popup.classList.remove("open-popup");
-}
-
-let createEmployee = document.getElementById("createEmployee");
-function openCreateEmployee()
-{
-  createEmployee.classList.add("open-createEmployee");
-}
-
-function closeCreateEmployee()
-{
-  createEmployee.classList.remove("open-createEmployee");
-}
+// Call the fetchEmployeesAndUpdateTable function on page load or when needed
+fetchEmployeesAndUpdateTable();
