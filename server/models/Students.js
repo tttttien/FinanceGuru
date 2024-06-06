@@ -8,11 +8,6 @@ module.exports = (sequelize, DataTypes) => {
         primaryKey: true,
         autoIncrement: true,
       },
-      StudentID: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        unique: true,
-      },
       FullName: {
         type: DataTypes.STRING,
         allowNull: false,
@@ -35,11 +30,16 @@ module.exports = (sequelize, DataTypes) => {
       },
       StudentPhone: {
         type: DataTypes.STRING, // Corrected to lowercase "integer"
-        allowNull: false,
+        allowNull: true,
       },
       Course: {
         type: DataTypes.STRING, // Corrected to lowercase "integer"
         allowNull: false,
+      },
+      Status: {
+        type: DataTypes.STRING, // Corrected to lowercase "integer"
+        default: "pending",
+        allowNull: true,
       },
 
     },

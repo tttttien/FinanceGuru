@@ -19,9 +19,9 @@ const db = require(`./models`);
 const studentRouter = require("./routes/Students");
 app.use("/students", studentRouter);
 
+
 const employeeRouter = require("./routes/Employees");
 app.use("/employees", employeeRouter);
-
 
 
 db.sequelize.sync().then(() => {

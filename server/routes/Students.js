@@ -39,4 +39,17 @@ router.post("/", async (req, res) => {
   res.json(student);
 });
 
+router.get("/accepted", async (req, res) => {
+  try {
+    const acceptedStudents = await Students.findAll({
+      where: { Status: "Accepted" }, // Filter by status
+      order: [["Num", "ASC"]], // Sort by Num column in ascending order
+    });
+    res.json(acceptedStudents);
+  } catch (error) {
+    console.error("Error fetching students:", error);
+    res.status(500).json({ error: "Server error" });
+  }
+});
+
 module.exports = router;
