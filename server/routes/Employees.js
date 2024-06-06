@@ -44,7 +44,7 @@ router.post("/", async (req, res) => {
     }
 });
 
-router.delete('/:employeeId', async (req, res) => {
+router.delete('/delete/:employeeId', async (req, res) => {
     try {
         const deletedCount = await Employees.destroy({
             where: { id: req.params.employeeId },
