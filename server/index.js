@@ -22,6 +22,8 @@ app.use("/students", studentRouter);
 const employeeRouter = require("./routes/Employees");
 app.use("/employees", employeeRouter);
 
+
+
 db.sequelize.sync().then(() => {
   app.listen(2001, () => {
     //api call
