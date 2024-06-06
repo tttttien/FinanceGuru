@@ -178,9 +178,9 @@ header{
 .categories__left p{
     margin: 1rem 0 3rem;
 }
-.categories_right {
+.categories__right {
     display: grid;
-    grid-template-columns: 3 1fr;
+    grid-template-columns: repeat(3, 1fr);
     gap:1.2rem;
 }
 
