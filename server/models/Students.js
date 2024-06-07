@@ -21,7 +21,7 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
       },
       StudentDOB: {
-        type: DataTypes.DATE, // Corrected to lowercase "integer"
+        type: DataTypes.DATEONLY, // Corrected to lowercase "integer"
         allowNull: true,
       },
       StudentAddress: {

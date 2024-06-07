@@ -7,11 +7,29 @@ h2 {
 /* Responsive table */
 .table-responsive {
     overflow-x: auto;
-    width: 100%; /* Ensure the table extends to the full width of the viewport */
+    width: 100%;
+    /* Ensure the table extends to the full width of the viewport */
 }
 
 /* Adjust button size for responsiveness */
 .btn-approve,
 .btn-disapprove {
-    padding: 0.25rem 0.5rem; /* Adjust padding as needed */
+    padding: 0.25rem 0.5rem;
+    /* Adjust padding as needed */
+}
+
+.btn-sm {
+    padding: 5px 10px;
+    /* Adjust padding as needed */
+    font-size: 12px;
+    /* Adjust font size as needed */
+    border-radius: 4px;
+    /* Add rounded corners if desired */
+}
+
+.btn-success,
+.btn-danger {
+    color: white;
+    z-index: 1;
+    /* Set text color to white for both buttons */
 }

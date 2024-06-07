@@ -1,5 +1,5 @@
 function fetchStudentsAndUpdateTable() {
-    return fetch('http://localhost:2001/students') // Replace with your actual API endpoint
+    return fetch('http://localhost:2001/students/accepted') // Replace with your actual API endpoint
         .then(response => {
             if (!response.ok) {
                 throw new Error('Network response was not ok');
@@ -37,7 +37,7 @@ function createTableRow(student) {
 
     // Create cells for each data point and add them to the row
     const idCell = document.createElement('td');
-    idCell.textContent = student.StudentID;
+    idCell.textContent = student.Num;
     row.appendChild(idCell);
 
     const nameCell = document.createElement('td');
@@ -77,7 +77,7 @@ function showStudentDetails(student) {
     const course = document.getElementById('course');
 
     // Update popup content with student data
-    studentId.textContent = student.StudentID;
+    studentId.textContent = student.Num;
     fullName.textContent = student.FullName;
     email.textContent = student.Email; // Access and display email
     phoneNumber.textContent = student.StudentPhone;
@@ -87,6 +87,26 @@ function showStudentDetails(student) {
     course.textContent = student.Course; // Access and display course
     // You can add logic here to open the popup (consider a toggle functionality)
     popup.classList.add('open-popup'); // Assuming a class 'open-popup' for visibility
+}
+
+
+async function deleteEmployee(employeeId) {
+    fetch(`http://localhost:2001/employees/delete/${employeeId}`, {
+        method: 'DELETE'
+    })
+        .then(response => {
+            if (response.ok) {
+                console.log('Employee removed successfully');
+                // Optionally, you can call fetchNotesAndUpdateHTML() here to refresh the UI
+                fetchEmployeesAndUpdateTable();
+            } else {
+                console.error('Error removing employee');
+            }
+        })
+        .catch(error => {
+            console.error('Error removing employee:', error);
+        });
+
 }
 
 // Call the fetchStudentsAndUpdateTable function on page load or when needed

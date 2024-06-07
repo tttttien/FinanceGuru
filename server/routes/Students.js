@@ -15,22 +15,21 @@ router.get("/", async (req, res) => {
   }
 });
 
-
-router.get("/:name", async (req, res) => {
+router.delete('/pending/delete/:Num', async (req, res) => {
   try {
-    const students = await Students.findOne({
-      where: { Name: req.params.name },
+    const deletedCount = await Students.destroy({
+      where: { Num: req.params.Num },
     });
-    if (!students) {
-      return res.status(404).json({ error: "Student not found" });
+    if (deletedCount === 0) {
+      return res.status(404).json({ error: 'Student not found' });
     }
-    res.json(students);
+    res.json({ message: 'Student deleted' });
   } catch (error) {
-    console.error("Error fetching Student by Name:", error);
-    console.log("500");
-    res.status(500).json({ error: "Server error" });
+    console.error('Error deleting student:', error);
+    res.status(500).json({ error: 'Server error' });
   }
 });
+
 
 // Request to create a new student
 router.post("/", async (req, res) => {
@@ -48,6 +47,50 @@ router.get("/accepted", async (req, res) => {
     res.json(acceptedStudents);
   } catch (error) {
     console.error("Error fetching students:", error);
+    res.status(500).json({ error: "Server error" });
+  }
+});
+
+router.get("/pending", async (req, res) => {
+  try {
+    const pendingStudents = await Students.findAll({
+      where: { Status: "Pending" }, // Filter by status
+      order: [["Num", "ASC"]], // Sort by Num column in ascending order
+    });
+    res.json(pendingStudents);
+  } catch (error) {
+    console.error("Error fetching students:", error);
+    res.status(500).json({ error: "Server error" });
+  }
+});
+
+router.put('/pending/:Num', async (req, res) => {
+  try {
+    // Get student ID (Num) from the route parameter
+    const studentNum = req.params.Num;
+
+    // Find the student by Num
+    const student = await Students.findOne({ where: { Num: studentNum } });
+    if (!student) {
+      return res.status(404).json({ message: "Student not found" });
+    }
+
+    // Check if status is "null" (assuming this is the pending state)
+    if (student.Status === "Pending") {
+      student.Status = "Accepted"; // Update status to "Accepted"
+    } else {
+      // Handle cases where the status is already not "null" (optional)
+      console.warn(`Student ${studentNum} already has status "${student.Status}"`);
+      // You can return a specific error message or continue as needed
+    }
+
+    // Save the updated student
+    await student.save();
+
+    // Return the updated student information
+    res.json(student);
+  } catch (error) {
+    console.error("Error updating student status:", error);
     res.status(500).json({ error: "Server error" });
   }
 });

@@ -62,6 +62,14 @@ function createTableRow(employee) {
   viewDetailsCell.appendChild(viewDetailsButton);
   row.appendChild(viewDetailsCell);
 
+  const deleteCell = document.createElement('td');
+  const deleteButton = document.createElement('button');
+  deleteButton.classList.add('btn', 'btn-danger', 'btn-sm');
+  deleteButton.innerText = 'Delete';
+  deleteButton.onclick = () => deleteEmployee(employee.ID); // Call deleteEmployee function
+  deleteCell.appendChild(deleteButton);
+  row.appendChild(deleteCell);
+
   return row;
 }
 
@@ -94,5 +102,134 @@ function showEmployeeDetails(employee) {
   popup.classList.add('open-popup'); // Assuming a class 'open-popup' for visibility
 }
 
-// Call the fetchEmployeesAndUpdateTable function on page load or when needed
+// Function to open the create employee form
+function openCreateEmployee() {
+  const createEmployeeForm = document.getElementById('createEmployee');
+  createEmployeeForm.style.display = 'block'; // Simple example, adjust based on your implementation
+}
+
+
+// Function to close the employee details popup
+function closePopup() {
+  // Get the popup element
+  const popup = document.getElementById('popup');
+
+  // Hide the popup (toggle visibility or use a modal window)
+  popup.style.display = 'none'; // Simple example, adjust based on your implementation
+}
+
+
+function closePopup() {
+  popup.classList.remove("open-popup");
+}
+
+
+
+document.addEventListener('DOMContentLoaded', () => {
+  // Your code that uses document elements here
+  const submitButton = document.getElementById("submit");
+  submitButton.addEventListener('click', onFormSubmit);
+});
+
+let createEmployee = document.getElementById("createEmployee");
+function openCreateEmployee() {
+  createEmployee.classList.add("open-createEmployee");
+}
+
+function closeCreateEmployee() {
+  createEmployee.classList.remove("open-createEmployee");
+}
+
+const createEmployeeForm = document.getElementById("createEmployee");
+const fullNameInput = document.getElementById("fullName");
+const positionSelect = document.getElementById("position");
+const emailInput = document.getElementById("email");
+const phoneNumberInput = document.getElementById("phoneNumber");
+const birthdateInput = document.getElementById("birthdate");
+const genderSelect = document.getElementById("gender");
+const addressInput = document.getElementById("address");
+const passwordInput = document.getElementById("passWord");
+
+function onFormSubmit(event) {
+  // Optional: Prevent default form submission behavior
+  // event.preventDefault();
+
+  // Get form data with error handling (replace element names if needed)
+  try {
+    const fullName = fullNameInput.value.trim();
+    const position = positionSelect.value;
+    const email = emailInput.value.trim();
+    const password = passwordInput.value.trim();
+    const phoneNumber = phoneNumberInput.value.trim();
+    const birthdate = birthdateInput.value;
+    const gender = genderSelect.value;
+    const address = addressInput.value.trim();
+
+    // Basic validation (optional, improve based on your needs)
+    if (!fullName || !email || !password || !phoneNumber || !birthdate || !address) {
+      alert('Please fill out all required fields.');
+      return;
+    }
+
+    // Prepare data for sending to server
+    const data = {
+      FullName: fullName,
+      Position: position,
+      EmployeeEmail: email,
+      Password: password,
+      EmployeePhone: phoneNumber,
+      EmployeeDOB: birthdate, // Might need conversion depending on backend logic
+      Gender: gender,
+      EmployeeAddress: address,
+    };
+
+    // Send data to server using fetch API (assuming a backend server is running on http://localhost:2001/)
+    fetch('http://localhost:2001/employees', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    })
+      .then(response => response.json())
+      .then(data => {
+
+        console.log('Employee data saved successfully');
+        // Display a more user-friendly success message for the user (e.g., alert, toast notification)
+        alert('Employee created successfully!');
+        closeCreateEmployee(); // Clear form after successful submission
+        fetchEmployeesAndUpdateTable();
+      })
+      .catch(error => {
+        console.error('Error submitting employee data:', error);
+        // Handle network or other errors
+        alert('An error occurred while submitting employee data. Please try again.');
+      });
+  } catch (error) {
+    console.error('Error retrieving form data:', error);
+    // Handle errors in accessing form elements (optional)
+    alert('An error occurred while processing the form. Please try again.');
+  }
+}
+
+
+async function deleteEmployee(employeeId) {
+  fetch(`http://localhost:2001/employees/delete/${employeeId}`, {
+    method: 'DELETE'
+  })
+    .then(response => {
+      if (response.ok) {
+        console.log('Employee removed successfully');
+        // Optionally, you can call fetchNotesAndUpdateHTML() here to refresh the UI
+        fetchEmployeesAndUpdateTable();
+      } else {
+        console.error('Error removing employee');
+      }
+    })
+    .catch(error => {
+      console.error('Error removing employee:', error);
+    });
+
+}
+
 fetchEmployeesAndUpdateTable();
