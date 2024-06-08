@@ -51,6 +51,18 @@ router.get("/accepted", async (req, res) => {
   }
 });
 
+router.get("/accepted/count", async (req, res) => {
+  try {
+    const acceptedStudentsCount = await Students.count({
+      where: { Status: "Accepted" }, // Lọc theo trạng thái
+    });
+    res.json({ count: acceptedStudentsCount });
+  } catch (error) {
+    console.error("Lỗi khi truy xuất thông tin học sinh:", error);
+    res.status(500).json({ error: "Lỗi máy chủ" });
+  }
+});
+
 router.get("/pending", async (req, res) => {
   try {
     const pendingStudents = await Students.findAll({

@@ -76,4 +76,16 @@ router.get("/chartdata/:year", async (req, res) => {
     }
 });
 
+router.get("/total", async (req, res) => {
+    try {
+        const totalIncome = await Incomes.sum('Amount');
+        // Sử dụng phương thức sum() của Sequelize để tính tổng của trường 'Amount' trong tất cả các bản ghi
+
+        res.json({ totalIncome });
+    } catch (error) {
+        console.error('Error calculating total income:', error);
+        res.status(500).json({ error: 'An error occurred while calculating total income' });
+    }
+});
+
 module.exports = router;

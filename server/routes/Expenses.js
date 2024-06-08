@@ -125,7 +125,17 @@ router.get("/chartdata/:year", async (req, res) => {
 
 
 
+router.get("/total", async (req, res) => {
+    try {
+        const totalExpense = await Expenses.sum('Amount');
+        // Sử dụng phương thức sum() của Sequelize để tính tổng của trường 'Amount' trong tất cả các bản ghi
 
+        res.json({ totalExpense });
+    } catch (error) {
+        console.error('Error calculating total expense:', error);
+        res.status(500).json({ error: 'An error occurred while calculating total expense' });
+    }
+});
 
 
 router.get("/filter", async (req, res) => {
