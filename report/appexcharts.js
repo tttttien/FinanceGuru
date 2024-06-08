@@ -60,11 +60,11 @@ var options = {
 
 var chart = new ApexCharts(document.querySelector("#areachart"), options);
 chart.render();
-document.querySelector('.apexcharts-menu-item.exportCSV').addEventListener('click', function() {
+document.querySelector('.apexcharts-menu-item.exportCSV').addEventListener('click', function () {
     // Prepare CSV content
     let csvContent = "data:text/csv;charset=utf-8,";
     csvContent += "Month,Total Revenue - 2024,Total Expenditure - 2024,Total Revenue - 2025,Total Expenditure - 2025\n";
-    
+
     // Assuming you have monthly data for both 2024 and 2025
     for (let i = 0; i < 12; i++) {
         csvContent += `${options.labels[i]},${options.series[0].data[i]},${options.series[1].data[i]},${options.series[2].data[i]},${options.series[3].data[i]}\n`;
@@ -80,5 +80,3 @@ document.querySelector('.apexcharts-menu-item.exportCSV').addEventListener('clic
     // // Trigger download
     // link.click();
 });
-
-

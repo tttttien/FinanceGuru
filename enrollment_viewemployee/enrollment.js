@@ -95,29 +95,84 @@ function createStudentTableRow(student) {
 
 
 function approveStudent(studentId) {
-    // Log current student ID
-    console.log('Current student ID:', studentId);
+    try {
+        // Log current student ID
+        console.log('Current student ID:', studentId);
 
-    // Code to update the student registration status to "Accepted" on the server
-    fetch(`http://localhost:2001/students/pending/${studentId}`, {
-        method: 'PUT', // Use PUT for updating resources
-        headers: {
-            'Content-Type': 'application/json'
-        },
+        // Fetch student details
+        fetch(`http://localhost:2001/students/pending/${studentId}`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to fetch student details');
+                }
+                return response.json();
+            })
+            .then(studentData => {
+                const fullName = studentData.FullName;
+                console.log('Full Name:', fullName);
 
-    })
-        .then(response => {
-            if (response.ok) {
+                // Get current date
+                const currentDate = getCurrentDate();
+                console.log(currentDate);
+
+                // Prepare data for income submission
+                const data = {
+                    Amount: "1500000",
+                    InputDate: currentDate,
+                    Description: fullName,
+                };
+
+                // Send income data to server
+                return fetch('http://localhost:2001/incomes', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Error submitting income data');
+                }
+                console.log('Income data saved successfully');
+
+                // Update student registration status to "Accepted" on the server
+                return fetch(`http://localhost:2001/students/pending/${studentId}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Error approving student registration');
+                }
                 console.log('Student registration accepted');
+                // Fetch and update student table (assuming this function exists)
                 fetchStudentsAndUpdateTable();
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                // Handle errors
+                alert('An error occurred. Please try again.');
+            });
+    } catch (error) {
+        console.error('Error:', error);
+        // Handle errors
+        alert('An error occurred. Please try again.');
+    }
+}
 
-            } else {
-                console.error('Error approving student registration');
-            }
-        })
-        .catch(error => {
-            console.error('Error updating student registration status:', error);
-        });
+function getCurrentDate() {
+    const currentDate = new Date();
+    const year = currentDate.getFullYear();
+    const month = currentDate.getMonth() + 1; // Month is zero-based, so we add 1
+    const day = currentDate.getDate();
+    // Format the date as needed (e.g., "YYYY-MM-DD")
+    const formattedDate = `${year}-${month < 10 ? '0' + month : month}-${day < 10 ? '0' + day : day}`;
+    return formattedDate;
 }
 
 async function rejectStudent(studentId) {

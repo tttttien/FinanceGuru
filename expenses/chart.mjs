@@ -1,17 +1,49 @@
-class ExpenseChart{
-    constructor(my_chart){
+document.addEventListener('DOMContentLoaded', function () {
+    // Call your functions once the DOM is ready
+    const my_chart = document.getElementById('my-chart').getContext('2d');
+    const expenseChart = new ExpenseChart(my_chart); // Tạo một thể hiện mới của ExpenseChart
+    fetchExpenseByMonthForAreaChart(2024, expenseChart); // Chuyển expenseChart vào hàm để tạo biểu đồ
+
+});
+//export { bar_chart };
+function fetchExpenseByMonthForAreaChart(year, expenseChart) {
+    return fetch(`http://localhost:2001/expenses/chartdata/${year}`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(expensedata => {
+            console.log(expensedata);
+            // Create the chart after expense data is received
+            expenseChart.createChart(expensedata); // Sử dụng expenseChart để tạo biểu đồ
+        })
+        .catch(error => {
+            console.error('Error fetching data:', error);
+        });
+}
+
+class ExpenseChart {
+    constructor(my_chart) {
         Chart.defaults.global.defaultFontSize = 16;
         this.my_chart = my_chart;
         this.chart;
     }
-    createChart(){
+
+    createChart(expenseData) {
+        if (!Array.isArray(expenseData)) {
+            console.error('Invalid data format:', expenseData);
+            return; // Exit the function early
+        }
+        const Amount2024 = expenseData.map((entry) => entry.currentYearExpense);
         this.chart = new Chart(this.my_chart, {
             type: 'bar',
             data: {
-                labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" ],
+                labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
                 datasets: [{
                     label: 'Amount (VND)',
-                    data: [],
+                    data: Amount2024,
                     backgroundColor: [
                         'rgba(255, 99, 132, 0.6)',
                         'rgba(54, 162, 235, 0.6)',
@@ -29,81 +61,47 @@ class ExpenseChart{
                         'rgba(255, 159, 64, 1)'
                     ],
                     borderWidth: 1,
-                    borderColor: '#777',
                     hoverBorderWidth: 2,
                     hoverBorderColor: '#000'
                 }]
             },
             options: {
-                title:{
+                title: {
                     display: true,
                     text: 'Monthly amount of expenses',
                     fontSize: 28
                 },
-                legend:{
+                legend: {
                     display: false
                 },
-                layout:{
-                    padding:{
+                layout: {
+                    padding: {
                         top: 50
                     }
                 },
-                scales:{
-                    yAxes:[{
-                        ticks:{
+                scales: {
+                    yAxes: [{
+                        ticks: {
                             beginAtZero: true,
                             fontSize: 20
                         },
                         display: true,
-                        scaleLabel:{
+                        scaleLabel: {
                             display: true,
                             labelString: 'Amount (VND)',
                             fontSize: 20
                         }
                     }],
-                    xAxes:[{
-                        ticks:{
+                    xAxes: [{
+                        ticks: {
                             fontSize: 18
                         },
                     }]
                 }
             }
-        })
-    }
-
-    updateChart(){
-        const table_body = document.querySelector("#expense-table-body");
-        let chart_data = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-        table_body.childNodes.forEach( tr =>{
-            if (!tr.classList.contains('d-none')){
-                let {amount, month} = this.getAmountAndMonthFromRow(tr);
-                chart_data[month-1] += amount;
-            };
         });
-        
-        this.chart.data.datasets.forEach(datasets => datasets.data = chart_data);
-        this.chart.update();
-    }
-
-    getAmountAndMonthFromRow(tr){
-        let amount, month;
-        Array.from(tr.children).forEach( children => {
-            if (children.classList.contains('exp-amount')){
-                amount = parseInt(children.textContent);
-            }
-            else if(children.classList.contains('exp-date')){
-                month = parseInt(children.textContent.split('-')[1]);
-            }
-        });
-        return {
-            amount: amount,
-            month: month
-        };
     }
 }
 
 
-// create chart
-const my_chart = document.getElementById('my-chart').getContext('2d');
-const bar_chart = new ExpenseChart(my_chart);
-export { bar_chart };
+export { ExpenseChart };

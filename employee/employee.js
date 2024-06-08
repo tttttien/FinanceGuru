@@ -152,7 +152,7 @@ const passwordInput = document.getElementById("passWord");
 
 function onFormSubmit(event) {
   // Optional: Prevent default form submission behavior
-  // event.preventDefault();
+  event.preventDefault();
 
   // Get form data with error handling (replace element names if needed)
   try {
@@ -193,12 +193,18 @@ function onFormSubmit(event) {
     })
       .then(response => response.json())
       .then(data => {
-
         console.log('Employee data saved successfully');
-        // Display a more user-friendly success message for the user (e.g., alert, toast notification)
         alert('Employee created successfully!');
         closeCreateEmployee(); // Clear form after successful submission
-        fetchEmployeesAndUpdateTable();
+        fetchEmployeesAndUpdateTable(); // Update table after server confirmation
+        fullNameInput.value = "";
+        positionSelect.value = ""; // Set to default option, if any
+        emailInput.value = "";
+        passwordInput.value = "";
+        phoneNumberInput.value = "";
+        birthdateInput.value = "";
+        genderSelect.value = ""; // Set to default option, if any
+        addressInput.value = "";
       })
       .catch(error => {
         console.error('Error submitting employee data:', error);

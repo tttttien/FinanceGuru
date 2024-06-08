@@ -1,12 +1,12 @@
 document.addEventListener('DOMContentLoaded', function () {
-    const signInForm = document.querySelector('.login-form'); // Select the form using class
-    const errorMessage = document.getElementById('error-message'); // Select the error message element
+    const signInForm = document.querySelector('.login-form');
+    const errorMessage = document.getElementById('error-message');
 
     signInForm.addEventListener('submit', async function (event) {
         event.preventDefault();
 
-        const email = document.getElementById('exampleInputEmail1').value; // Select email input by ID
-        const password = document.getElementById('exampleInputPassword1').value; // Select password input by ID
+        const email = document.getElementById('exampleInputEmail1').value;
+        const password = document.getElementById('exampleInputPassword1').value;
 
         try {
             const response = await fetch('http://localhost:2001/employees/Login', {
@@ -14,16 +14,17 @@ document.addEventListener('DOMContentLoaded', function () {
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ email, password }) // Include password in the request body
+                body: JSON.stringify({ email, password })
             });
 
             if (response.ok) {
                 const data = await response.json();
-                sessionStorage.setItem('user', JSON.stringify(data));
+                localStorage.setItem('user', JSON.stringify(data)); // Use localStorage
+                localStorage.setItem('fullName', data.fullName); // Store fullName from response (lowercase f)
                 window.location.href = '../index.html';
             } else {
                 const errorData = await response.json();
-                showPopup("Invalid email or password");
+                showPopup("Invalid email or password"); // Assuming the server sends an error message
                 console.error('Error logging in:', errorData.error);
                 errorMessage.textContent = 'Invalid email or password';
                 errorMessage.style.display = 'block';
@@ -37,5 +38,5 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 function showPopup(message) {
-    // Implement this function to show a popup with the message (e.g., alert(message))
+    alert(message);
 }
