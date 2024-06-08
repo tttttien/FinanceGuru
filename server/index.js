@@ -24,6 +24,10 @@ const employeeRouter = require("./routes/Employees");
 app.use("/employees", employeeRouter);
 
 
+const expenseRouter = require("./routes/Expenses");
+app.use("/expenses", expenseRouter);
+
+
 db.sequelize.sync().then(() => {
   app.listen(2001, () => {
     //api call

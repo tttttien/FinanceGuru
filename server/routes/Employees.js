@@ -1,4 +1,5 @@
 const express = require("express");
+const Sequelize = require('sequelize');
 const router = express.Router();
 const { Employees } = require("../models");
 
@@ -15,22 +16,31 @@ router.get("/", async (req, res) => {
     }
 });
 
-
-router.get("/:name", async (req, res) => {
+router.get("/lecturer", async (req, res) => {
     try {
-        const employees = await Employees.findOne({
-            where: { Name: req.params.name },
+        // Define the positions to filter by
+        const positions = ["Mathematic Lecturer", "Literature Lecturer", "English Lecturer"];
+
+        // Filter employees based on specific positions and select FullName
+        const lecturerFullNames = await Employees.findAll({
+            attributes: ['FullName'], // Specify attributes to retrieve (only FullName)
+            where: {
+                position: {
+                    [Sequelize.Op.in]: positions, // Use Sequelize Op.in for exact matching
+                },
+            },
+            order: [["ID", "ASC"]], // Sort by ID in ascending order
         });
-        if (!employees) {
-            return res.status(404).json({ error: "Employee not found" });
-        }
-        res.json(employees);
+
+        // Return the list of lecturer FullNames
+        res.json(lecturerFullNames);
     } catch (error) {
-        console.error("Error fetching Employee by Name:", error);
-        console.log("500");
+        console.error("Error fetching lecturer names:", error);
         res.status(500).json({ error: "Server error" });
     }
 });
+
+
 
 router.post("/", async (req, res) => {
     try {
@@ -43,35 +53,7 @@ router.post("/", async (req, res) => {
     }
 });
 
-// router.post("/", async (req, res) => {
-//     try {
-//         const {FullName, EmployeeEmail, EmployeeDOB, Password, Gender, Position, EmployeePhone, EmployeeAddress } = req.body;
 
-//         if (!Password || Password.trim() === "") {
-//             return res.status(400).json({ message: "Password cannot be empty" });
-//         }
-
-//         const hashedPassword = await bcrypt.hash(Password, 10);
-
-//         const user = {
-//             FullName,
-//             Gender,
-//             EmployeeDOB,
-//             EmployeeAddress,
-//             EmployeePhone,
-//             Position,
-//             EmployeeEmail,
-//             Password: hashedPassword,
-//         };
-
-//         userStore.set(EmployeeEmail, user);
-
-//         res.status(200).json({ message: "Employee created successfully" });
-//     } catch (error) {
-//         console.error("Error creating employee:", error);
-//         res.status(500).json({ error: "Server error" });
-//     }
-// });
 
 
 router.delete('/delete/:employeeId', async (req, res) => {
@@ -88,19 +70,27 @@ router.delete('/delete/:employeeId', async (req, res) => {
         res.status(500).json({ error: 'Server error' });
     }
 });
+
 router.post("/Login", async (req, res) => {
     const { email, password } = req.body;
-    const user = await Employees.findOne({ where: { EmployeeEmail: email } });
 
+    // Check if user exists
+    const user = await Employees.findOne({ where: { EmployeeEmail: email } });
     if (!user) {
-        res.json({ error: "User Doesn't Exist" });
-    } else {
-        // **WARNING: This approach is not secure!**
+        return res.status(401).json({ error: "User doesn't exist" });
+    }
+
+    // Compare password (replace with secure hashing!)
+    if (password === user.Password) {
+        // Prepare response data
         if (password === user.Password) {
-            res.json({ message: "LOGGED IN!!!", user: user });
-        } else {
-            res.status(400).json({ error: "Wrong Username And Password Combination" });
+            // Prepare response data
+            const userData = { message: "LOGGED IN!!!", userId: user.id, fullName: user.FullName };
+            res.json(userData); // Send response data back to client
         }
+    } else {
+        return res.status(401).json({ error: "Wrong username and password combination" });
     }
 });
+
 module.exports = router;
