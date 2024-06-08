@@ -1,7 +1,8 @@
 const express = require("express");
 const router = express.Router();
-
+const Sequelize = require('sequelize');
 const { Expenses } = require("../models");
+const moment = require('moment');
 
 // Request to get all expenses
 router.get("/", async (req, res) => {
@@ -73,6 +74,59 @@ router.get('/chart-data', async (req, res) => {
         res.status(500).json({ message: 'Internal server error' });
     }
 });
+
+
+router.get("/chartdata/:year", async (req, res) => {
+    const { year } = req.params;
+    const expenseByMonth = [];
+
+    try {
+        for (let month = 1; month <= 12; month++) {
+            // Calculate start and end dates for the month in the current year
+            const startDateCurrentYear = moment(new Date(year, month - 1, 1)).format('YYYY-MM-DD');
+            const endDateCurrentYear = moment(new Date(year, month, 0)).format('YYYY-MM-DD'); // Last day of the month
+            // Calculate start and end dates for the same month in the previous year
+            const startDateLastYear = moment(new Date(year - 1, month - 1, 1)).format('YYYY-MM-DD');
+            const endDateLastYear = moment(new Date(year - 1, month, 0)).format('YYYY-MM-DD'); // Last day of the month
+
+            // Sum revenue for the specified month in the current year
+            const currentYearExpense = await Expenses.sum('Amount', {
+                where: {
+                    InputDate: {
+                        [Sequelize.Op.between]: [startDateCurrentYear, endDateCurrentYear]
+                    }
+                }
+            });
+
+            // Sum revenue for the specified month in the previous year
+            const lastYearExpense = await Expenses.sum('Amount', {
+                where: {
+                    InputDate: {
+                        [Sequelize.Op.between]: [startDateLastYear, endDateLastYear]
+                    }
+                }
+            });
+
+            expenseByMonth.push({
+                month,
+                year,
+                currentYearExpense: currentYearExpense || 0,
+                lastYearExpense: lastYearExpense || 0,
+            });
+        }
+
+        // Send the revenue data as a JSON response
+        res.json(expenseByMonth);
+    } catch (error) {
+        console.error('Error fetching Expenses for year:', error);
+        res.status(500).json({ error: 'Server error' });
+    }
+});
+
+
+
+
+
 
 router.get("/filter", async (req, res) => {
     const { Category, month, year } = req.query; // Sử dụng req.query thay vì req.body

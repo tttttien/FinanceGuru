@@ -94,5 +94,14 @@ router.put('/pending/:Num', async (req, res) => {
     res.status(500).json({ error: "Server error" });
   }
 });
-
+router.get("/pending/:Num", async (req, res) => {
+  try {
+    const studentNum = req.params.Num;
+    const listOfStudents = await Students.findOne({ where: { Num: studentNum } });
+    res.json(listOfStudents);
+  } catch (error) {
+    console.error("Error fetching students:", error);
+    res.status(500).json({ error: "Server error" });
+  }
+});
 module.exports = router;

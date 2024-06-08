@@ -23,9 +23,11 @@ app.use("/students", studentRouter);
 const employeeRouter = require("./routes/Employees");
 app.use("/employees", employeeRouter);
 
-
 const expenseRouter = require("./routes/Expenses");
 app.use("/expenses", expenseRouter);
+
+const incomeRouter = require("./routes/Incomes");
+app.use("/incomes", incomeRouter);
 
 
 db.sequelize.sync().then(() => {
