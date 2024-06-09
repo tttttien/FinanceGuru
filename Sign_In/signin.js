@@ -21,6 +21,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 const data = await response.json();
                 localStorage.setItem('user', JSON.stringify(data)); // Use localStorage
                 localStorage.setItem('fullName', data.fullName); // Store fullName from response (lowercase f)
+
                 window.location.href = '../index.html';
             } else {
                 const errorData = await response.json();

@@ -320,8 +320,8 @@ async function fetchTeachers() {
 
 // import Chart instance
 import { ExpenseChart } from './chart.mjs';
-const my_chart = document.getElementById('my-chart').getContext('2d');
-const expenseChart = new ExpenseChart(my_chart);
+const expenseChart = new ExpenseChart(document.getElementById('my-chart').getContext('2d'));
+
 // Event: DOMContentLoaded
 document.addEventListener('DOMContentLoaded', () => {
     //UI.showAllExpenses();
@@ -459,17 +459,19 @@ document.querySelector('#expense-btn').addEventListener('click', e => {
                 UI.addExpense(expense);
                 UI.showAlert("Expense has been successfully added", "alert-success");
                 fetchTotalAmount();
-                LocalStorage.addExpenseToStore(expense);
-                UI.countTotalAmount();
-                UI.resetFields();
+                fetchExpenseData();
+                expenseChart.updateChart();
 
-                bar_chart.createChart();
+                // UI.countTotalAmount();
+                // UI.resetFields();
                 //bar_chart.updateChart();
             } else {
                 console.error('Error saving expense:', response.statusText);
                 UI.showAlert("Failed to save expense. Please try again", "alert-danger");
             }
         })
+    fetchExpenseData();
+    expenseChart.updateChart();
     // .catch(error => {
     //     console.error('Error saving expense:', error);
     //     UI.showAlert("Failed to save expense. Please try again", "alert-danger");

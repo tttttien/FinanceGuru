@@ -1,27 +1,22 @@
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', async function () {
     // Call your functions once the DOM is ready
     const my_chart = document.getElementById('my-chart').getContext('2d');
-    const expenseChart = new ExpenseChart(my_chart); // Tạo một thể hiện mới của ExpenseChart
-    fetchExpenseByMonthForAreaChart(2024, expenseChart); // Chuyển expenseChart vào hàm để tạo biểu đồ
-
+    const expenseChart = new ExpenseChart(my_chart); // Create a new instance of ExpenseChart
+    try {
+        const expensedata = await fetchExpenseByMonthForAreaChart(2024);
+        expenseChart.createChart(expensedata);
+        expenseChart.updateChart();
+    } catch (error) {
+        console.error('Error:', error);
+    }
 });
 //export { bar_chart };
-function fetchExpenseByMonthForAreaChart(year, expenseChart) {
-    return fetch(`http://localhost:2001/expenses/chartdata/${year}`)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
-        })
-        .then(expensedata => {
-            console.log(expensedata);
-            // Create the chart after expense data is received
-            expenseChart.createChart(expensedata); // Sử dụng expenseChart để tạo biểu đồ
-        })
-        .catch(error => {
-            console.error('Error fetching data:', error);
-        });
+async function fetchExpenseByMonthForAreaChart(year) {
+    const response = await fetch(`http://localhost:2001/expenses/chartdata/${year}`);
+    if (!response.ok) {
+        throw new Error('Network response was not ok');
+    }
+    return response.json();
 }
 
 class ExpenseChart {
@@ -29,6 +24,7 @@ class ExpenseChart {
         Chart.defaults.global.defaultFontSize = 16;
         this.my_chart = my_chart;
         this.chart;
+        this.previousFetchedData = [];
     }
 
     createChart(expenseData) {
@@ -100,7 +96,26 @@ class ExpenseChart {
                 }
             }
         });
+        this.previousFetchedData = expenseData;
     }
+    updateChart() {
+        const newData = this.previousFetchedData;
+        if (!Array.isArray(newData)) {
+            console.error('Invalid data format:', newData);
+            return; // Exit the function early
+        }
+
+        const Amount2024 = newData.map((entry) => entry.currentYearExpense);
+
+        // Cập nhật dữ liệu trực tiếp trong mảng dữ liệu của biểu đồ
+        this.chart.data.datasets.forEach((dataset) => {
+            dataset.data = Amount2024;
+        });
+
+        // Update the chart
+        this.chart.update();
+    }
+
 }
 
 
