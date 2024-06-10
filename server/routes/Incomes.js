@@ -8,7 +8,7 @@ const { Incomes } = require("../models");
 router.get("/", async (req, res) => {
     try {
         const listOfIncomes = await Incomes.findAll({
-            order: [["ID", "ASC"]], // Sort by Num column in descending order
+            order: [["ID", "DESC"]], // Sort by Num column in descending order
         });
         res.json(listOfIncomes);
     } catch (error) {

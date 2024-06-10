@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
 async function fetchData() {
     try {
-        const response = await fetch('http://localhost:2001/students/accepted');
+        const response = await fetch('http://localhost:2001/students/accepted/desc');
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }

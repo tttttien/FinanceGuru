@@ -15,6 +15,43 @@ router.get("/", async (req, res) => {
         res.status(500).json({ error: "Server error" });
     }
 });
+router.get("/checkposition/:name", async (req, res) => {
+    const employeeName = req.params.name;
+    try {
+        const employee = await Employees.findOne({
+            where: { FullName: employeeName },
+            attributes: ['Position'] // Chỉ lấy thuộc tính 'position'
+        });
+
+        if (employee) {
+            res.json(employee);
+        } else {
+            res.status(404).json({ error: "Employee not found" });
+        }
+    } catch (error) {
+        console.error("Error fetching employee:", error);
+        res.status(500).json({ error: "Server error" });
+    }
+});
+
+router.get("/checkname/:name", async (req, res) => {
+    const employeeName = req.params.name;
+    try {
+        const employee = await Employees.findOne({
+            where: { FullName: employeeName },
+            attributes: ['FullName'] // Chỉ lấy thuộc tính 'position'
+        });
+
+        if (employee) {
+            res.json(employee);
+        } else {
+            res.status(404).json({ error: "Employee not found" });
+        }
+    } catch (error) {
+        console.error("Error fetching employee:", error);
+        res.status(500).json({ error: "Server error" });
+    }
+});
 
 router.get("/lecturer", async (req, res) => {
     try {

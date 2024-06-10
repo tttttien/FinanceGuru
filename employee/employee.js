@@ -171,46 +171,82 @@ function onFormSubmit(event) {
     const address = addressInput.value.trim();
 
     // Basic validation (optional, improve based on your needs)
+    const emailPattern = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
+    const phonePattern = /^0\d{9}$/;
+
     if (!fullName || !email || !password || !phoneNumber || !birthdate || !address) {
       alert('Please fill out all required fields.');
       return;
     }
 
-    // Prepare data for sending to server
-    const data = {
-      FullName: fullName,
-      Position: position,
-      EmployeeEmail: email,
-      Password: password,
-      EmployeePhone: phoneNumber,
-      EmployeeDOB: birthdate, // Might need conversion depending on backend logic
-      Gender: gender,
-      EmployeeAddress: address,
-    };
+    if (!emailPattern.test(email)) {
+      alert('Please enter a valid email address ending with "@gmail.com".');
+      return;
+    }
 
-    // Send data to server using fetch API (assuming a backend server is running on http://localhost:2001/)
-    fetch('http://localhost:2001/employees', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(data)
-    })
-      .then(response => response.json())
-      .then(data => {
-        console.log('Employee data saved successfully');
-        alert('Employee created successfully!');
-        closeCreateEmployee(); // Clear form after successful submission
-        fetchEmployeesAndUpdateTable(); // Update table after server confirmation
-        fullNameInput.value = "";
-        positionSelect.value = ""; // Set to default option, if any
-        emailInput.value = "";
-        passwordInput.value = "";
-        phoneNumberInput.value = "";
-        birthdateInput.value = "";
-        genderSelect.value = ""; // Set to default option, if any
-        addressInput.value = "";
-        const validPositions = ["Mathematic Lecturer", "Literature Lecturer", "English Lecturer"];
+    if (!phonePattern.test(phoneNumber)) {
+      alert('Please enter a valid phone number with 10 digits starting with 0.');
+      return;
+    }
+
+    // Check if fullName already exists
+    // Check if fullName already exists
+    fetch(`http://localhost:2001/checkname/${fullName}`)
+      .then(response => {
+        if (response.ok) {
+          // Employee with the provided name already exists
+          alert('Employee with the provided name already exists.');
+        } else if (response.status === 404) {
+          // No employee found with the provided name, proceed to create
+          createEmployee();
+        } else {
+          // Server error or other unexpected response
+          throw new Error('Unexpected response from server');
+        }
+      })
+      .catch(error => {
+        console.error('Error checking employee name:', error);
+        alert('An error occurred while checking employee name. Please try again.');
+      });
+
+    // Function to create employee
+    function createEmployee() {
+      // Prepare data for sending to server
+      const data = {
+        FullName: fullName,
+        Position: position,
+        EmployeeEmail: email,
+        Password: password,
+        EmployeePhone: phoneNumber,
+        EmployeeDOB: birthdate, // Might need conversion depending on backend logic
+        Gender: gender,
+        EmployeeAddress: address,
+      };
+
+      // Send data to server using fetch API (assuming a backend server is running on http://localhost:2001/)
+      fetch('http://localhost:2001/employees', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      })
+        .then(response => response.json())
+        .then(data => {
+          console.log('Employee data saved successfully');
+          alert('Employee created successfully!');
+          closeCreateEmployee(); // Clear form after successful submission
+          fetchEmployeesAndUpdateTable(); // Update table after server confirmation
+          fullNameInput.value = "";
+          positionSelect.value = ""; // Set to default option, if any
+          emailInput.value = "";
+          passwordInput.value = "";
+          phoneNumberInput.value = "";
+          birthdateInput.value = "";
+          genderSelect.value = ""; // Set to default option, if any
+          addressInput.value = "";
+
+          const validPositions = ["Mathematic Lecturer", "Literature Lecturer", "English Lecturer"];
           if (validPositions.includes(position)) {
             const lecturerData = {
               LecturerName: fullName,
@@ -219,9 +255,9 @@ function onFormSubmit(event) {
               LecturerAddress: address,
               EmployeePhone: phoneNumber
             };
-  
+
             console.log('Lecturer data to be sent:', lecturerData); // Log data for debugging
-  
+
             fetch('http://localhost:2001/lecturer', {
               method: 'POST',
               headers: {
@@ -238,18 +274,20 @@ function onFormSubmit(event) {
                 alert('An error occurred while submitting lecturer data. Please try again.');
               });
           }
-      })
-      .catch(error => {
-        console.error('Error submitting employee data:', error);
-        // Handle network or other errors
-        alert('An error occurred while submitting employee data. Please try again.');
-      });
+        })
+        .catch(error => {
+          console.error('Error submitting employee data:', error);
+          // Handle network or other errors
+          alert('An error occurred while submitting employee data. Please try again.');
+        });
+    }
   } catch (error) {
     console.error('Error retrieving form data:', error);
     // Handle errors in accessing form elements (optional)
     alert('An error occurred while processing the form. Please try again.');
   }
 }
+
 
 
 async function deleteEmployee(employeeId) {

@@ -3,7 +3,7 @@ module.exports = (sequelize, DataTypes) => {
         "Employees",
         {
             ID: {
-                type: DataTypes.INTEGER, // Corrected to lowercase "integer"
+                type: DataTypes.INTEGER,
                 allowNull: false,
                 primaryKey: true,
                 autoIncrement: true,
@@ -11,13 +11,14 @@ module.exports = (sequelize, DataTypes) => {
             FullName: {
                 type: DataTypes.STRING,
                 allowNull: false,
+                unique: true, // Thêm thuộc tính unique ở đây
             },
             Gender: {
                 type: DataTypes.STRING,
                 allowNull: false,
             },
             EmployeeDOB: {
-                type: DataTypes.DATEONLY, // Corrected to lowercase "integer"
+                type: DataTypes.DATEONLY,
                 allowNull: true,
             },
             EmployeeAddress: {
@@ -25,11 +26,11 @@ module.exports = (sequelize, DataTypes) => {
                 allowNull: true,
             },
             EmployeePhone: {
-                type: DataTypes.STRING, // Corrected to lowercase "integer"
+                type: DataTypes.STRING,
                 allowNull: false,
             },
             Position: {
-                type: DataTypes.STRING, // Corrected to lowercase "integer"
+                type: DataTypes.STRING,
                 allowNull: false,
             },
             EmployeeEmail: {
@@ -39,10 +40,7 @@ module.exports = (sequelize, DataTypes) => {
             Password: {
                 type: DataTypes.STRING,
                 allowNull: false,
-
             },
-
-
         },
         {
             timestamps: false,

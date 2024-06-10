@@ -408,9 +408,8 @@ async function deleteExpense(expenseId) {
 fetchExpenseData();
 
 const employeeName = localStorage.getItem('fullName');
-
 // Event: add expense button
-document.querySelector('#expense-btn').addEventListener('click', e => {
+document.querySelector('#expense-btn').addEventListener('click', async (e) => {
     e.preventDefault();
 
     const amount = document.querySelector("#expense-amount").value;
@@ -438,6 +437,23 @@ document.querySelector('#expense-btn').addEventListener('click', e => {
         return;
     }
 
+    // Check if the employee is Staff or Manager
+    try {
+        const response = await fetch(`http://localhost:2001/employees/checkposition/${employeeName}`);
+        if (!response.ok) {
+            throw new Error('Failed to fetch employee position');
+        }
+        const employee = await response.json();
+        if (!['Staff', 'Manager'].includes(employee.Position)) {
+            UI.showAlert("Only Staff or Manager can add expenses", "alert-danger");
+            return;
+        }
+    } catch (error) {
+        console.error('Error checking employee position:', error);
+        UI.showAlert("Failed to verify employee position. Please try again", "alert-danger");
+        return;
+    }
+
     const expense = new Expense(employeeName, amount, category, expense_date, description);
 
     const data = {
@@ -462,23 +478,19 @@ document.querySelector('#expense-btn').addEventListener('click', e => {
                 fetchTotalAmount();
                 fetchExpenseData();
                 expenseChart.updateChart();
-
-                // UI.countTotalAmount();
-                // UI.resetFields();
-                //bar_chart.updateChart();
             } else {
                 console.error('Error saving expense:', response.statusText);
                 UI.showAlert("Failed to save expense. Please try again", "alert-danger");
             }
         })
+        .catch(error => {
+            console.error('Error saving expense:', error);
+            UI.showAlert("Failed to save expense. Please try again", "alert-danger");
+        });
     fetchExpenseData();
     window.location.href = './expense.html';
-    //expenseChart.updateChart();
-    // .catch(error => {
-    //     console.error('Error saving expense:', error);
-    //     UI.showAlert("Failed to save expense. Please try again", "alert-danger");
-    // });
 });
+
 
 
 

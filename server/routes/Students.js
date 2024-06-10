@@ -51,6 +51,19 @@ router.get("/accepted", async (req, res) => {
   }
 });
 
+router.get("/accepted/desc", async (req, res) => {
+  try {
+    const acceptedStudents = await Students.findAll({
+      where: { Status: "Accepted" }, // Filter by status
+      order: [["Num", "DESC"]], // Sort by Num column in ascending order
+    });
+    res.json(acceptedStudents);
+  } catch (error) {
+    console.error("Error fetching students:", error);
+    res.status(500).json({ error: "Server error" });
+  }
+});
+
 router.get("/accepted/course", async (req, res) => {
   try {
     // Find the student by course
@@ -143,6 +156,7 @@ router.put('/pending/:Num', async (req, res) => {
     res.status(500).json({ error: "Server error" });
   }
 });
+
 router.get("/pending/:Num", async (req, res) => {
   try {
     const studentNum = req.params.Num;
@@ -153,4 +167,21 @@ router.get("/pending/:Num", async (req, res) => {
     res.status(500).json({ error: "Server error" });
   }
 });
+
+router.delete('/delete/:studentId', async (req, res) => {
+  try {
+    const deletedCount = await Students.destroy({
+      where: { Num: req.params.studentId },
+    });
+    if (deletedCount === 0) {
+      return res.status(404).json({ error: 'Student not found' });
+    }
+    res.json({ message: 'Student deleted' });
+  } catch (error) {
+    console.error('Error deleting student:', error);
+    res.status(500).json({ error: 'Server error' });
+  }
+});
+
+
 module.exports = router;

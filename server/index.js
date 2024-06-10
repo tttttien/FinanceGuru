@@ -32,6 +32,8 @@ app.use("/expenses", expenseRouter);
 const incomeRouter = require("./routes/Incomes");
 app.use("/incomes", incomeRouter);
 
+const courseRouter = require("./routes/Courses");
+app.use("/courses", courseRouter);
 
 db.sequelize.sync().then(() => {
   app.listen(2001, () => {
