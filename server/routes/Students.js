@@ -53,12 +53,8 @@ router.get("/accepted", async (req, res) => {
 
 router.get("/accepted/course", async (req, res) => {
   try {
-    // Get student ID (Num) from the route parameter
-    const { Course } = req.body;
     // Find the student by course
-    const student = await Students.findAll({
-      where: { Course: Course }
-    });
+    const student = await Students.findAll();
     if (!student) {
       return res.status(404).json({ message: "This course have no student" });
     }

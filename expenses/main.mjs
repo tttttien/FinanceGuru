@@ -402,6 +402,7 @@ async function deleteExpense(expenseId) {
     } catch (error) {
         console.error('Error removing expense:', error);
     }
+    window.location.href = './expense.html';
 }
 // Call the fetch function on page load or when necessary
 fetchExpenseData();
@@ -471,7 +472,8 @@ document.querySelector('#expense-btn').addEventListener('click', e => {
             }
         })
     fetchExpenseData();
-    expenseChart.updateChart();
+    window.location.href = './expense.html';
+    //expenseChart.updateChart();
     // .catch(error => {
     //     console.error('Error saving expense:', error);
     //     UI.showAlert("Failed to save expense. Please try again", "alert-danger");

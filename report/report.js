@@ -53,7 +53,7 @@ async function fetchActivity() {
             activityItem.classList.add("activity-item", "d-flex");
             activityItem.innerHTML = `
           <div class="activity-content">
-          ${student.Description} chuyển tiền ${student.Amount} VND
+          ${student.Description} transfer ${student.Amount} VND
           </div>
         `;
             activityList.appendChild(activityItem);
