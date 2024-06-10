@@ -133,7 +133,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
 let createEmployee = document.getElementById("createEmployee");
 function openCreateEmployee() {
-  createEmployee.classList.add("open-createEmployee");
+  const fullName = localStorage.getItem('fullName');
+  if (fullName === 'root') {
+    createEmployee.classList.add("open-createEmployee");
+  } else {
+    alert('You do not have permission to create employees.');
+  }
 }
 
 function closeCreateEmployee() {
@@ -220,22 +225,27 @@ function onFormSubmit(event) {
 
 
 async function deleteEmployee(employeeId) {
-  fetch(`http://localhost:2001/employees/delete/${employeeId}`, {
-    method: 'DELETE'
-  })
-    .then(response => {
-      if (response.ok) {
-        console.log('Employee removed successfully');
-        // Optionally, you can call fetchNotesAndUpdateHTML() here to refresh the UI
-        fetchEmployeesAndUpdateTable();
-      } else {
-        console.error('Error removing employee');
-      }
+  const fullName = localStorage.getItem('fullName');
+  console.log(fullName);
+  if (fullName === 'root') {
+    fetch(`http://localhost:2001/employees/delete/${employeeId}`, {
+      method: 'DELETE'
     })
-    .catch(error => {
-      console.error('Error removing employee:', error);
-    });
-
+      .then(response => {
+        if (response.ok) {
+          console.log('Employee removed successfully');
+          // Optionally, you can call fetchNotesAndUpdateHTML() here to refresh the UI
+          fetchEmployeesAndUpdateTable();
+        } else {
+          console.error('Error removing employee');
+        }
+      })
+      .catch(error => {
+        console.error('Error removing employee:', error);
+      });
+  } else {
+    alert('You do not have permission to delete employees.');
+  }
 }
 
 fetchEmployeesAndUpdateTable();

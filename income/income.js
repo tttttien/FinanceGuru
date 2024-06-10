@@ -59,15 +59,18 @@ if (createStudentForm) {
             // Handle errors in accessing form elements (optional)
             alert('An error occurred while processing the form. Please try again.');
         }
+        //window.location.href = 'FinaaceGuru/view2_courses/course.html';
     }
 
     // Add event listener to the submit button (assuming it exists)
     const submitButton = document.getElementById("submit");
     if (submitButton) {
         submitButton.addEventListener('click', onFormSubmit);
+
     } else {
         console.warn("Submit button with ID 'submit' not found.");
     }
+
 } else {
     console.warn("Form element with ID 'createStudent' not found.");
 }

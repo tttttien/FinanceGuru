@@ -51,6 +51,47 @@ router.get("/accepted", async (req, res) => {
   }
 });
 
+router.get("/accepted/course", async (req, res) => {
+  try {
+    // Get student ID (Num) from the route parameter
+    const { Course } = req.body;
+    // Find the student by course
+    const student = await Students.findAll({
+      where: { Course: Course }
+    });
+    if (!student) {
+      return res.status(404).json({ message: "This course have no student" });
+    }
+    // Save the updated student
+    //await student.save();
+    // Return the updated student information
+    res.json(student);
+  } catch (error) {
+    console.error("Error find student data:", error);
+    res.status(500).json({ error: "Server error" });
+  }
+});
+
+router.get("/accepted/name", async (req, res) => {
+  try {
+    // Get student ID (Num) from the route parameter
+    const { FullName } = req.body;
+    // Find the student by course
+    const student = await Students.findAll({
+      where: { FullName: FullName }
+    });
+    if (!student) {
+      return res.status(404).json({ message: "This course not include student" });
+    }
+    // Save the updated student
+    // Return the updated student information
+    res.json(student);
+  } catch (error) {
+    console.error("Error find student data:", error);
+    res.status(500).json({ error: "Server error" });
+  }
+});
+
 router.get("/accepted/count", async (req, res) => {
   try {
     const acceptedStudentsCount = await Students.count({
