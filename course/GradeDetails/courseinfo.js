@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const filteredData = JSON.parse(localStorage.getItem('courseInfo'));
     console.log(filteredData[0].Course)
     updateTable(filteredData);
-
+    updateCourseInfo(filteredData[0].Course);
     const searchInput = document.getElementById('dt-search-0');
     searchInput.addEventListener('input', () => {
         const searchTerm = searchInput.value.trim().toLowerCase();
@@ -27,7 +27,8 @@ async function updateCourseInfo(course) {
         filteredStudents.forEach(student => {
             studentCount++
         })
-
+        document.getElementById("coursestudent").textContent = studentCount;
+        document.getElementById("course").textContent = course;
 
     } catch (error) {
         console.error('Error fetching student data:', error);
