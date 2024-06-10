@@ -23,6 +23,9 @@ app.use("/students", studentRouter);
 const employeeRouter = require("./routes/Employees");
 app.use("/employees", employeeRouter);
 
+const lecturerRouter = require("./routes/Lecturer");
+app.use("/lecturer", lecturerRouter);
+
 const expenseRouter = require("./routes/Expenses");
 app.use("/expenses", expenseRouter);
 

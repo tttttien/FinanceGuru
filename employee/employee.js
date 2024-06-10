@@ -210,6 +210,34 @@ function onFormSubmit(event) {
         birthdateInput.value = "";
         genderSelect.value = ""; // Set to default option, if any
         addressInput.value = "";
+        const validPositions = ["Mathematic Lecturer", "Literature Lecturer", "English Lecturer"];
+          if (validPositions.includes(position)) {
+            const lecturerData = {
+              LecturerName: fullName,
+              LecturerGender: gender,
+              LecturerDOB: birthdate,
+              LecturerAddress: address,
+              EmployeePhone: phoneNumber
+            };
+  
+            console.log('Lecturer data to be sent:', lecturerData); // Log data for debugging
+  
+            fetch('http://localhost:2001/lecturer', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify(lecturerData)
+            })
+              .then(response => response.json())
+              .then(data => {
+                console.log('Lecturer data saved successfully:', data);
+              })
+              .catch(error => {
+                console.error('Error submitting lecturer data:', error);
+                alert('An error occurred while submitting lecturer data. Please try again.');
+              });
+          }
       })
       .catch(error => {
         console.error('Error submitting employee data:', error);
